@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pickle
 import re
@@ -14,9 +15,42 @@ except:
 from nltk.corpus import stopwords
 
 # ========== Page Config (must be first Streamlit command) ========== #
-st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
+st.set_page_config(page_title="🧠 Sentiment Analyzer | محلل المشاعر", layout="centered")
 
-# ========== Load Model and Vectorizer ========== #
+# ========== Custom CSS for colorful design and styling ========== #
+st.markdown("""
+<style>
+    .main {
+        background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .stButton>button {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        height: 3em;
+        width: 100%;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    .stButton>button:hover {
+        background-color: #45a049;
+    }
+    .stTextArea>div>textarea {
+        border: 2px solid #4CAF50;
+        border-radius: 8px;
+        font-size: 16px;
+        padding: 10px;
+    }
+    footer, header, .css-18e3th9 {
+        visibility: hidden;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ========== Load Model and Vectorizer with caching ========== #
 @st.cache_resource
 def load_components():
     try:
@@ -29,7 +63,7 @@ def load_components():
 
 model, vectorizer = load_components()
 
-# ========== Preprocessing Function ========== #
+# ========== Text Preprocessing Function ========== #
 def preprocess_text(text):
     ps = PorterStemmer()
     text = re.sub(r'http\S+|www\S+|@\w+|[^\w\s]', '', text)
@@ -40,27 +74,26 @@ def preprocess_text(text):
 
 # ========== App UI ========== #
 st.title('🧠 Sentiment Analyzer | محلل المشاعر')
+st.markdown("## 📝 Enter text to analyze its sentiment (English/Arabic supported)")
 
-text_input = st.text_area("Enter your text (English/Arabic supported) | أدخل النص هنا", "I love this product!")
+text_input = st.text_area("💬 Your text here... | أدخل النص هنا", "I love this product!")
 
-if st.button('Analyze | تحليل'):
-    with st.spinner('Analyzing... | جاري التحليل...'):
+if st.button('🔍 Analyze | تحليل'):
+    with st.spinner('🔄 Analyzing... | جاري التحليل...'):
         try:
             processed_text = preprocess_text(text_input)
             X = vectorizer.transform([processed_text])
             prediction = model.predict(X)[0]
             proba = model.predict_proba(X)[0]
 
-            # Result display
             if prediction == 1:
-                st.success(f"✅ Positive | إيجابي (Confidence: {proba[1]*100:.1f}%)")
+                st.success(f"✅ Positive | إيجابي (Confidence: {proba[1]*100:.1f}%) 🎉")
                 st.balloons()
             else:
-                st.error(f"❌ Negative | سلبي (Confidence: {proba[0]*100:.1f}%)")
+                st.error(f"❌ Negative | سلبي (Confidence: {proba[0]*100:.1f}%) 😞")
 
-            # Chart
             fig, ax = plt.subplots()
-            ax.bar(['Negative', 'Positive'], proba, color=['red', 'green'])
+            ax.bar(['Negative', 'Positive'], proba, color=['#FF4B4B', '#4CAF50'])
             ax.set_ylim(0, 1)
             st.pyplot(fig)
 
