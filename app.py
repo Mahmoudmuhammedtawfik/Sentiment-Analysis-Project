@@ -43,10 +43,11 @@ h1, h2, h3, h4 {
 .description-text {
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #4b0082;
+    color: #a3a3a3;  /* لون رمادي فاتح */
     font-weight: 600;
     margin-bottom: 2rem;
 }
+
 .footer {
     text-align: center;
     font-size: 0.9rem;
