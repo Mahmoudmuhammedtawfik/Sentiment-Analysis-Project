@@ -6,7 +6,7 @@ from nltk.stem.porter import PorterStemmer
 import matplotlib.pyplot as plt
 
 # ========== Page Config (must be first command) ==========
-st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
+st.set_page_config(page_title="Sentiment NLP Analysis", layout="centered")
 
 # ========== CSS for colorful design with light gray text ==========
 css = """
@@ -96,19 +96,18 @@ def preprocess_text(text):
     return ' '.join(words)
 
 # ========== UI ==========
-st.title('🧠 Sentiment Analyzer | محلل المشاعر')
+st.title('Sentiment NLP Analysis')
 
 st.markdown("""
 <p class="description-text">
 This app uses Natural Language Processing (NLP) to analyze text sentiment.<br>
-التطبيق يستخدم معالجة اللغة الطبيعية لتحليل المشاعر.
 </p>
 """, unsafe_allow_html=True)
 
 text_input = st.text_area("Enter your text (English/Arabic supported) | أدخل النص هنا:", "I love this product!")
 
 if st.button('Analyze | تحليل'):
-    with st.spinner('Analyzing... | جاري التحليل...'):
+    with st.spinner('Analyzing'):
         try:
             processed_text = preprocess_text(text_input)
             X = vectorizer.transform([processed_text])
@@ -116,10 +115,10 @@ if st.button('Analyze | تحليل'):
             proba = model.predict_proba(X)[0]
 
             if prediction == 1:
-                st.markdown(f'<p class="result-positive">✅ Positive | إيجابي (Confidence: {proba[1]*100:.1f}%)</p>', unsafe_allow_html=True)
+                st.markdown(f'<p class="result-positive">✅ Positive (Confidence: {proba[1]*100:.1f}%)</p>', unsafe_allow_html=True)
                 st.balloons()
             else:
-                st.markdown(f'<p class="result-negative">❌ Negative | سلبي (Confidence: {proba[0]*100:.1f}%)</p>', unsafe_allow_html=True)
+                st.markdown(f'<p class="result-negative">❌ Negative (Confidence: {proba[0]*100:.1f}%)</p>', unsafe_allow_html=True)
 
             fig, ax = plt.subplots()
             ax.bar(['Negative', 'Positive'], proba, color=['red', 'green'])
