@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pickle
 import re
@@ -7,17 +6,17 @@ from nltk.stem.porter import PorterStemmer
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ========== NLTK stopwords check ========== #
+# NLTK stopwords
 try:
     nltk.data.find('corpora/stopwords')
 except:
     nltk.download('stopwords', quiet=True)
 from nltk.corpus import stopwords
 
-# ========== Page Config (must be first Streamlit command) ========== #
+# Page config (first command)
 st.set_page_config(page_title="🧠 Sentiment Analyzer | محلل المشاعر", layout="centered")
 
-# ========== Custom CSS for colorful design and styling ========== #
+# Custom CSS for colorful design
 st.markdown("""
 <style>
     .main {
@@ -33,10 +32,6 @@ st.markdown("""
         height: 3em;
         width: 100%;
         font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
-    .stButton>button:hover {
-        background-color: #45a049;
     }
     .stTextArea>div>textarea {
         border: 2px solid #4CAF50;
@@ -50,7 +45,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ========== Load Model and Vectorizer with caching ========== #
+# Load model and vectorizer
 @st.cache_resource
 def load_components():
     try:
@@ -63,7 +58,6 @@ def load_components():
 
 model, vectorizer = load_components()
 
-# ========== Text Preprocessing Function ========== #
 def preprocess_text(text):
     ps = PorterStemmer()
     text = re.sub(r'http\S+|www\S+|@\w+|[^\w\s]', '', text)
@@ -72,11 +66,12 @@ def preprocess_text(text):
     words = [ps.stem(word) for word in words if word not in stopwords.words('english')]
     return ' '.join(words)
 
-# ========== App UI ========== #
+# Title with emoji icon
 st.title('🧠 Sentiment Analyzer | محلل المشاعر')
 st.markdown("## 📝 Enter text to analyze its sentiment (English/Arabic supported)")
 
-text_input = st.text_area("💬 Your text here... | أدخل النص هنا", "I love this product!")
+# Text area with placeholder emoji
+text_input = st.text_area("💬 Your text here...", "I love this product!")
 
 if st.button('🔍 Analyze | تحليل'):
     with st.spinner('🔄 Analyzing... | جاري التحليل...'):
@@ -99,6 +94,7 @@ if st.button('🔍 Analyze | تحليل'):
 
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
+
 
 # ========== Footer ========== #
 st.markdown("---")
