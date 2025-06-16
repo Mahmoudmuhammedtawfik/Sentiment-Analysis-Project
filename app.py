@@ -6,46 +6,17 @@ from nltk.stem.porter import PorterStemmer
 import numpy as np
 import matplotlib.pyplot as plt
 
-# NLTK stopwords
+# ========== NLTK stopwords check ========== #
 try:
     nltk.data.find('corpora/stopwords')
 except:
     nltk.download('stopwords', quiet=True)
 from nltk.corpus import stopwords
 
-# Page config (first command)
-st.set_page_config(page_title="🧠 Sentiment Analyzer | محلل المشاعر", layout="centered")
+# ========== Page Config (must be first Streamlit command) ========== #
+st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
 
-# Custom CSS for colorful design
-st.markdown("""
-<style>
-    .main {
-        background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
-        color: #333;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .stButton>button {
-        background-color: #4CAF50;
-        color: white;
-        font-weight: bold;
-        border-radius: 10px;
-        height: 3em;
-        width: 100%;
-        font-size: 16px;
-    }
-    .stTextArea>div>textarea {
-        border: 2px solid #4CAF50;
-        border-radius: 8px;
-        font-size: 16px;
-        padding: 10px;
-    }
-    footer, header, .css-18e3th9 {
-        visibility: hidden;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Load model and vectorizer
+# ========== Load Model and Vectorizer ========== #
 @st.cache_resource
 def load_components():
     try:
@@ -58,6 +29,7 @@ def load_components():
 
 model, vectorizer = load_components()
 
+# ========== Preprocessing Function ========== #
 def preprocess_text(text):
     ps = PorterStemmer()
     text = re.sub(r'http\S+|www\S+|@\w+|[^\w\s]', '', text)
@@ -66,35 +38,34 @@ def preprocess_text(text):
     words = [ps.stem(word) for word in words if word not in stopwords.words('english')]
     return ' '.join(words)
 
-# Title with emoji icon
+# ========== App UI ========== #
 st.title('🧠 Sentiment Analyzer | محلل المشاعر')
-st.markdown("## 📝 Enter text to analyze its sentiment (English/Arabic supported)")
 
-# Text area with placeholder emoji
-text_input = st.text_area("💬 Your text here...", "I love this product!")
+text_input = st.text_area("Enter your text (English/Arabic supported) | أدخل النص هنا", "I love this product!")
 
-if st.button('🔍 Analyze | تحليل'):
-    with st.spinner('🔄 Analyzing... | جاري التحليل...'):
+if st.button('Analyze | تحليل'):
+    with st.spinner('Analyzing... | جاري التحليل...'):
         try:
             processed_text = preprocess_text(text_input)
             X = vectorizer.transform([processed_text])
             prediction = model.predict(X)[0]
             proba = model.predict_proba(X)[0]
 
+            # Result display
             if prediction == 1:
-                st.success(f"✅ Positive | إيجابي (Confidence: {proba[1]*100:.1f}%) 🎉")
+                st.success(f"✅ Positive | إيجابي (Confidence: {proba[1]*100:.1f}%)")
                 st.balloons()
             else:
-                st.error(f"❌ Negative | سلبي (Confidence: {proba[0]*100:.1f}%) 😞")
+                st.error(f"❌ Negative | سلبي (Confidence: {proba[0]*100:.1f}%)")
 
+            # Chart
             fig, ax = plt.subplots()
-            ax.bar(['Negative', 'Positive'], proba, color=['#FF4B4B', '#4CAF50'])
+            ax.bar(['Negative', 'Positive'], proba, color=['red', 'green'])
             ax.set_ylim(0, 1)
             st.pyplot(fig)
 
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
-
 
 # ========== Footer ========== #
 st.markdown("---")
