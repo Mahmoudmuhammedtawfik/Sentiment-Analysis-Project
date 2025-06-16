@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # ========== Page Config (Must be FIRST Streamlit command) ==========
 st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
 
-# ========== CSS for colorful design + math background card ==========
+# ========== CSS for colorful design + math background ==========
 css = """
 <style>
 .math-background {
@@ -19,18 +19,9 @@ css = """
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     font-family: "Times New Roman", Times, serif;
-    max-width: 300px;
-    margin: 1rem auto;
+    max-width: 400px;
+    margin: 1rem auto 2rem auto;
     position: relative;
-}
-.math-equation {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    padding: 1rem;
-    background-color: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    display: inline-block;
 }
 .math-background::before {
     content: "";
@@ -70,11 +61,6 @@ h1, h2, h3, h4 {
     font-weight: 700;
     font-size: 1.2rem;
 }
-.icon-nlp {
-    font-size: 3rem;
-    color: #7b2ff7;
-    margin-bottom: 0.5rem;
-}
 </style>
 """
 
@@ -113,12 +99,11 @@ def preprocess_text(text):
 # UI title
 st.title('🧠 Sentiment Analyzer | محلل المشاعر')
 
-# NLP Icon & explanation card with math-style background
+# Simple description inside the math-background div (no icons)
 st.markdown("""
 <div class="math-background">
-    <div class="icon-nlp">🤖📚🧠</div>
-    <div class="math-equation">NLP</div>
-    <p>This app uses Natural Language Processing to analyze text sentiment.<br>التطبيق يستخدم معالجة اللغة الطبيعية لتحليل المشاعر.</p>
+    <p>This app uses Natural Language Processing (NLP) to analyze text sentiment.<br>
+    التطبيق يستخدم معالجة اللغة الطبيعية لتحليل المشاعر.</p>
 </div>
 """, unsafe_allow_html=True)
 
