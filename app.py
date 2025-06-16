@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="محلل المشاعر", layout="centered")
+st.set_page_config(page_title="محلل المشاعر", layout="centered")  # ✅ لازم يكون هنا مباشرة
 
 import pickle
 import re
@@ -16,6 +16,9 @@ except:
 from nltk.corpus import stopwords
 
 # ========== تحميل النموذج ========== #
+import warnings
+warnings.filterwarnings("ignore")
+
 @st.cache_resource
 def load_components():
     try:
@@ -27,6 +30,7 @@ def load_components():
         st.stop()
 
 model, vectorizer = load_components()
+
 
 # ========== معالجة النص ========== #
 def preprocess_text(text):
