@@ -1,13 +1,10 @@
 # ============================================================
- 📌 Sentiment Analysis Web App using Streamlit
- ✅ This app allows users to input text and receive 
-    real-time sentiment analysis results (Positive/Negative)
-    using a trained Logistic Regression model.
- 🧠 Built with NLTK, Scikit-learn, and TF-IDF vectorizer.
+#  📌 Sentiment Analysis Web App using Streamlit
+#  ✅ This app allows users to input text and receive 
+#    real-time sentiment analysis results (Positive/Negative)
+#    using a trained Logistic Regression model.
+# 🧠 Built with NLTK, Scikit-learn, and TF-IDF vectorizer.
 # ============================================================
-# تم إنشاء هذا التطبيق بواسطة: محلل البيانات محمود توفيق
- LinkedIn: https://www.linkedin.com/in/tawfeq
- GitHub: https://github.com/Mahmoudmuhammedtawfik
 # 🗓 Version: 1.0 | 📅 Date: June 2025
 # ============================================================
 
@@ -83,3 +80,6 @@ if st.button('Analyze | تحليل'):
 # ========== Footer ========== #
 st.markdown("---")
 st.caption("Developed by Data Analyst Mahmoud Tawfik")
+ LinkedIn: https://www.linkedin.com/in/tawfeq
+ GitHub: https://github.com/Mahmoudmuhammedtawfik
+🗓 Version: 1.0 | 📅 Date: June 2025
