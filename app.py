@@ -69,14 +69,10 @@ if st.button('Analyze | تحليل'):
 
 # ========== Footer ========== #
 st.markdown("---")
-st.caption("Developed by Data Analyst Mahmoud Tawfik")
+st.caption("This sentiment analysis model was created by **Data Analyst Mahmoud Tawfik** into insights for impactful decisions Transforming data 💡")
 
 # Additional info with links and description
 st.markdown("""
----
-### About the Developer
-
-This sentiment analysis model was created by **Mahmoud Tawfik**, Data Analyst.
 
 - 🔗 [LinkedIn Profile](https://www.linkedin.com/in/tawfeq)
 - 🔗 [GitHub](https://github.com/Mahmoudmuhammedtawfik)
