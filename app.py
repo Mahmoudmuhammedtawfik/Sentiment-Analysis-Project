@@ -104,9 +104,9 @@ This app uses Natural Language Processing (NLP) to analyze text sentiment.<br>
 </p>
 """, unsafe_allow_html=True)
 
-text_input = st.text_area("Enter your text (English/Arabic supported) | أدخل النص هنا:", "I love this product!")
+text_input = st.text_area("Enter your text (English supported):", "I love this product!")
 
-if st.button('Analyze | تحليل'):
+if st.button('Analyze'):
     with st.spinner('Analyzing'):
         try:
             processed_text = preprocess_text(text_input)
