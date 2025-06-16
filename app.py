@@ -6,22 +6,23 @@ from nltk.stem.porter import PorterStemmer
 import numpy as np
 import matplotlib.pyplot as plt
 
+# ========== Page Config (Must be FIRST Streamlit command) ==========
+st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
+
 # ========== CSS for colorful design + math background card ==========
 css = """
 <style>
-/* Background card for math or special content */
 .math-background {
     background-color: #f5f5f5; /* light background */
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-family: "Times New Roman", Times, serif; /* math friendly font */
+    font-family: "Times New Roman", Times, serif;
     max-width: 300px;
     margin: 1rem auto;
     position: relative;
 }
-
 .math-equation {
     font-size: 2.5rem;
     color: #2c3e50;
@@ -31,30 +32,23 @@ css = """
     border-radius: 4px;
     display: inline-block;
 }
-
 .math-background::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: linear-gradient(135deg, rgba(74, 20, 140, 0.05) 0%, rgba(0, 0, 0, 0) 50%);
     z-index: -1;
     border-radius: 8px;
 }
-
-/* Colorful buttons and page style */
 body {
     background-color: #eaf2f8;
 }
-
 h1, h2, h3, h4 {
     color: #4b0082;
     font-weight: 700;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 .stButton>button {
     background: linear-gradient(45deg, #7b2ff7, #f107a3);
     color: white;
@@ -63,23 +57,19 @@ h1, h2, h3, h4 {
     padding: 0.5rem 1.5rem;
     transition: background 0.3s ease;
 }
-
 .stButton>button:hover {
     background: linear-gradient(45deg, #f107a3, #7b2ff7);
 }
-
 .result-positive {
     color: green;
     font-weight: 700;
     font-size: 1.2rem;
 }
-
 .result-negative {
     color: red;
     font-weight: 700;
     font-size: 1.2rem;
 }
-
 .icon-nlp {
     font-size: 3rem;
     color: #7b2ff7;
@@ -88,20 +78,17 @@ h1, h2, h3, h4 {
 </style>
 """
 
-# ========== Inject CSS ==========
+# Inject CSS styles
 st.markdown(css, unsafe_allow_html=True)
 
-# ========== Page Config ==========
-st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
-
-# ========== NLTK stopwords check ==========
+# NLTK stopwords check & download if missing
 try:
     nltk.data.find('corpora/stopwords')
 except:
     nltk.download('stopwords', quiet=True)
 from nltk.corpus import stopwords
 
-# ========== Load Model and Vectorizer ==========
+# Load model and vectorizer (cached)
 @st.cache_resource
 def load_components():
     try:
@@ -114,7 +101,7 @@ def load_components():
 
 model, vectorizer = load_components()
 
-# ========== Preprocessing ==========
+# Preprocess input text
 def preprocess_text(text):
     ps = PorterStemmer()
     text = re.sub(r'http\S+|www\S+|@\w+|[^\w\s]', '', text)
@@ -123,10 +110,10 @@ def preprocess_text(text):
     words = [ps.stem(word) for word in words if word not in stopwords.words('english')]
     return ' '.join(words)
 
-# ========== UI ==========
+# UI title
 st.title('🧠 Sentiment Analyzer | محلل المشاعر')
 
-# NLP icon and styled card using the CSS classes
+# NLP Icon & explanation card with math-style background
 st.markdown("""
 <div class="math-background">
     <div class="icon-nlp">🤖📚🧠</div>
@@ -135,6 +122,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Text input area
 text_input = st.text_area("Enter your text (English/Arabic supported) | أدخل النص هنا:", "I love this product!")
 
 if st.button('Analyze | تحليل'):
@@ -159,7 +147,7 @@ if st.button('Analyze | تحليل'):
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
 
-# ========== Footer ==========
+# Footer with your info and links
 st.markdown("---")
 st.markdown("""
 <div style="text-align:center; font-size:0.9rem; color:#555;">
