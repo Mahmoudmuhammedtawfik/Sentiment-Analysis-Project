@@ -43,11 +43,10 @@ h1, h2, h3, h4 {
 .description-text {
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #a3a3a3;  /* light gray */
+    color: #a3a3a3;
     font-weight: 600;
     margin-bottom: 2rem;
 }
-
 .footer {
     text-align: center;
     font-size: 0.9rem;
@@ -116,7 +115,7 @@ if st.button('Analyze'):
 
             if prediction == 1:
                 st.markdown(f'<p class="result-positive">✅ Positive (Confidence: {proba[1]*100:.1f}%)</p>', unsafe_allow_html=True)
-                st.balloons()
+                st.markdown("❤️😊🎉🎈 نتيجة إيجابية! رائع جدًا!", unsafe_allow_html=True)
             else:
                 st.markdown(f'<p class="result-negative">❌ Negative (Confidence: {proba[0]*100:.1f}%)</p>', unsafe_allow_html=True)
 
