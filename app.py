@@ -3,35 +3,14 @@ import pickle
 import re
 import nltk
 from nltk.stem.porter import PorterStemmer
-import numpy as np
 import matplotlib.pyplot as plt
 
-# ========== Page Config (Must be FIRST Streamlit command) ==========
+# ========== Page Config (must be first command) ==========
 st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
 
-# ========== CSS for colorful design + math background ==========
+# ========== CSS for colorful design ==========
 css = """
 <style>
-.math-background {
-    background-color: #f5f5f5; /* light background */
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    max-width: 400px;
-    margin: 1rem auto 2rem auto;
-    position: relative;
-}
-.math-background::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, rgba(74, 20, 140, 0.05) 0%, rgba(0, 0, 0, 0) 50%);
-    z-index: -1;
-    border-radius: 8px;
-}
 body {
     background-color: #eaf2f8;
 }
@@ -61,20 +40,39 @@ h1, h2, h3, h4 {
     font-weight: 700;
     font-size: 1.2rem;
 }
+.description-text {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4b0082;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+.footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 3rem;
+}
+.footer a {
+    color: #4b0082;
+    text-decoration: none;
+    font-weight: 600;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
 </style>
 """
-
-# Inject CSS styles
 st.markdown(css, unsafe_allow_html=True)
 
-# NLTK stopwords check & download if missing
+# ========== NLTK stopwords check ==========
 try:
     nltk.data.find('corpora/stopwords')
 except:
     nltk.download('stopwords', quiet=True)
 from nltk.corpus import stopwords
 
-# Load model and vectorizer (cached)
+# ========== Load model and vectorizer ==========
 @st.cache_resource
 def load_components():
     try:
@@ -87,7 +85,7 @@ def load_components():
 
 model, vectorizer = load_components()
 
-# Preprocess input text
+# ========== Preprocessing ==========
 def preprocess_text(text):
     ps = PorterStemmer()
     text = re.sub(r'http\S+|www\S+|@\w+|[^\w\s]', '', text)
@@ -96,18 +94,16 @@ def preprocess_text(text):
     words = [ps.stem(word) for word in words if word not in stopwords.words('english')]
     return ' '.join(words)
 
-# UI title
+# ========== UI ==========
 st.title('🧠 Sentiment Analyzer | محلل المشاعر')
 
-# Simple description inside the math-background div (no icons)
 st.markdown("""
-<div class="math-background">
-    <p>This app uses Natural Language Processing (NLP) to analyze text sentiment.<br>
-    التطبيق يستخدم معالجة اللغة الطبيعية لتحليل المشاعر.</p>
-</div>
+<p class="description-text">
+This app uses Natural Language Processing (NLP) to analyze text sentiment.<br>
+التطبيق يستخدم معالجة اللغة الطبيعية لتحليل المشاعر.
+</p>
 """, unsafe_allow_html=True)
 
-# Text input area
 text_input = st.text_area("Enter your text (English/Arabic supported) | أدخل النص هنا:", "I love this product!")
 
 if st.button('Analyze | تحليل'):
@@ -132,10 +128,10 @@ if st.button('Analyze | تحليل'):
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
 
-# Footer with your info and links
+# ========== Footer ==========
 st.markdown("---")
 st.markdown("""
-<div style="text-align:center; font-size:0.9rem; color:#555;">
+<div class="footer">
     Developed by Data Analyst <strong>Mahmoud Tawfik</strong><br>
     <a href="https://www.linkedin.com/in/tawfeq" target="_blank">LinkedIn</a> | 
     <a href="https://mahmoudmuhammedtawfik.github.io/portfolio/" target="_blank">Portfolio</a><br>
