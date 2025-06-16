@@ -15,7 +15,7 @@ body {
     background-color: #eaf2f8;
 }
 h1, h2, h3, h4 {
-    color: #4b0082;
+    color: #105823;
     font-weight: 700;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
