@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # ========== Page Config (must be first command) ==========
 st.set_page_config(page_title="Sentiment Analyzer | محلل المشاعر", layout="centered")
 
-# ========== CSS for colorful design ==========
+# ========== CSS for colorful design with light gray text ==========
 css = """
 <style>
 body {
@@ -43,7 +43,7 @@ h1, h2, h3, h4 {
 .description-text {
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #a3a3a3;  /* لون رمادي فاتح */
+    color: #a3a3a3;  /* light gray */
     font-weight: 600;
     margin-bottom: 2rem;
 }
